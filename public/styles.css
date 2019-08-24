@@ -1,0 +1,11 @@
+
+.updateShoppingListForm input, .createShoppingListForm input {
+    display: block;
+    width:300px;
+    padding:5px;
+}
+
+.updateShoppingListForm label, .createShoppingListForm label {
+    font-weight:bold;
+    padding:5px;
+}
