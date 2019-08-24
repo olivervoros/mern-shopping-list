@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import ShoppingListItem from './ShoppingListItem'
 import PropTypes from 'prop-types';
 import Nav from "./Nav";
+import {Redirect } from 'react-router-dom'
 
 class ShoppingList extends Component {
 
@@ -12,10 +13,15 @@ class ShoppingList extends Component {
     }
 
     render() {
-        const { shoppinglists, deleteShoppingListItem, loadCreateForm } = this.props;
+        const { shoppinglists, deleteShoppingListItem, loadCreateForm, loggedIn, logout } = this.props;
+
+        if(!loggedIn) {
+            return <Redirect to="/login"/>
+        }
+
         return (
             <div>
-                <Nav loadCreateForm={loadCreateForm}></Nav>
+                <Nav loadCreateForm={loadCreateForm} loggedIn={loggedIn} logout={logout}></Nav>
                 <h3 className="py-3">REACTJS - Shopping List Manager</h3>
                 <table className="table table-striped">
                     <thead>

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from "prop-types";
 import { capitaliseString } from "./Helper";
 import Nav from "./Nav";
+import {Redirect } from 'react-router-dom'
 
 class CreateShoppingList extends Component {
 
@@ -12,14 +13,18 @@ class CreateShoppingList extends Component {
     }
 
     render() {
-        const { createShoppingListItem, loadCreateForm } = this.props;
+        const { createShoppingListItem, loadCreateForm, loggedIn, logout } = this.props;
+        if(!loggedIn) {
+            return <Redirect to="/login"/>
+        }
+
         const items = (this.props.shoppinglistitems);
         const shoppingItems = Object.keys(items).map(key =>
             <div key={key} className="form-group"><label className="mr-5">{capitaliseString(items[key])}: </label><input required key={key} id={items[key]} name={items[key]} defaultValue=""  min="0" step="1" type="number"/></div>
         )
         return(
             <div>
-                <Nav loadCreateForm={loadCreateForm}></Nav>
+                <Nav loadCreateForm={loadCreateForm} loggedIn={loggedIn} logout={logout}></Nav>
             <h2 className="py-3">Create a new shopping list</h2>
             <form className="createShoppingListForm" action="#" method="post" onSubmit={createShoppingListItem}>
                 <div className="form-group">

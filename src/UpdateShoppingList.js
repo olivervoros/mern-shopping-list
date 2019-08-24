@@ -14,10 +14,15 @@ class UpdateShoppingList extends Component {
     }
 
     render() {
-        const { shoppingListItem, updateShoppingList, loadCreateForm } = this.props;
+        const { shoppingListItem, updateShoppingList, loadCreateForm, loggedIn, logout } = this.props;
+
         const items = (typeof shoppingListItem.items === 'undefined') ? false : shoppingListItem.items;
         if(!items) {
             return <Redirect to="/404"/>
+        }
+
+        if(!loggedIn) {
+            return <Redirect to="/login"/>
         }
 
         const shoppingItems = Object.keys(items).map(key =>
@@ -25,7 +30,7 @@ class UpdateShoppingList extends Component {
         )
         return (
             <div>
-                <Nav loadCreateForm={loadCreateForm}></Nav>
+                <Nav loadCreateForm={loadCreateForm} loggedIn={loggedIn} logout={logout}></Nav>
             <h2 className="py-3">Update the shopping list</h2>
             <form className="updateShoppingListForm" action="#" method="post" onSubmit={ updateShoppingList }>
                 <input id="id" name="id" readOnly  value={shoppingListItem.id} type="hidden"/>

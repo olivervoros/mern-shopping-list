@@ -1,11 +1,11 @@
 
-.updateShoppingListForm input, .createShoppingListForm input {
+.updateShoppingListForm input, .createShoppingListForm input, .loginForm input {
     display: block;
     width:300px;
     padding:5px;
 }
 
-.updateShoppingListForm label, .createShoppingListForm label {
+.updateShoppingListForm label, .createShoppingListForm label, .loginForm label {
     font-weight:bold;
     padding:5px;
 }

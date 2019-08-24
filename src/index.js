@@ -5,6 +5,7 @@ import * as serviceWorker from './serviceWorker';
 import ShoppingList from './ShoppingList';
 import UpdateShoppingList from './UpdateShoppingList';
 import CreateShoppingList from './CreateShoppingList';
+import LoginForm from './LoginForm';
 import Page404 from './Page404';
 import {convertUserDateToJS} from "./Helper";
 
@@ -14,6 +15,8 @@ class App extends Component {
         super(props);
 
         this.state = {
+            loggedIn : false,
+            loginErrorMsg : false,
             shoppingLists: [
                 {id: 1, title: "Oliver's Shopping list 2019 08 10.", author: "Oliver", date: new Date("10 03 1980"), items : {'milk': 1, 'eggs': 2, 'water': 3, 'apples': 4}},
                 {id: 2, title: "Aldi Shopping list 2019 06 22.", author: "Oliver", date: new Date("11 12 1950"), items : {'milk': 5, 'eggs': 6, 'water': 7, 'apples': 8}},
@@ -64,7 +67,6 @@ class App extends Component {
 
         this.setState((state) => {
             state.shoppingLists[objIndex] = {id: id, title: title, author: author, date: date, items: items};
-
         });
 
         this.setState({
@@ -78,14 +80,8 @@ class App extends Component {
     getShoppingListItem = (id) => {
 
         const result = this.state.shoppingLists.find(item => parseInt(item.id) === parseInt(id));
-        console.log("RESULT:"+result);
-        if (!result) {
-            console.log("A");
-            return {title: "404 - List does not exists!"};
-        } else {
-            console.log("B");
-            return result;
-        }
+        return (result) ? result : {};
+
 
     }
 
@@ -112,6 +108,42 @@ class App extends Component {
         });
     }
 
+    login = (event) => {
+        event.preventDefault();
+
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        if(email==='user@example.com' && password==='password') {
+
+
+            this.setState({
+                loggedIn: true,
+                redirect: true
+            });
+        } else {
+
+            this.setState({
+                loggedIn: false,
+                loginErrorMsg: true
+            });
+
+            return false;
+
+        }
+    }
+
+    logout = (event) => {
+        event.preventDefault();
+
+        this.setState({
+            loggedIn: false,
+            redirect: false,
+            loginErrorMsg: false
+        });
+
+    }
+
     getShoppingListItemsFromForm = () => {
         const milk = document.getElementById("milk").value;
         const eggs = document.getElementById("eggs").value;
@@ -131,44 +163,58 @@ class App extends Component {
 
         return (
             <Router>
-                <div className="container">
-                    <div>
-                        <Switch>
-                        <Route exact path="/"
-                               render={(props) => <ShoppingList
-                                                    shoppinglists={this.state.shoppingLists}
-                                                    deleteShoppingListItem={this.deleteShoppingListItem}
-                                                    viewShoppingListItem={this.viewShoppingListItem}
-                                                    loadCreateForm={this.loadCreateForm}/>}
-                        />
+                    <div className="container">
+                        <div>
+                            <Switch>
+                                <Route exact path="/"
+                                       render={(props) =>
+                                           <ShoppingList
+                                           shoppinglists={this.state.shoppingLists}
+                                           deleteShoppingListItem={this.deleteShoppingListItem}
+                                           viewShoppingListItem={this.viewShoppingListItem}
+                                           loadCreateForm={this.loadCreateForm}
+                                           loggedIn={this.state.loggedIn}
+                                           logout={this.logout}/>}
+                                />
 
-                        <Route exact path="/update/:id"
-                               render={(props) =>  ( this.state.redirect ?
-                                                   (<Redirect to={"/"} />) :
-                                                    <UpdateShoppingList
-                                                    shoppingListItem={this.getShoppingListItem(props.match.params.id)}
-                                                    updateShoppingList={this.updateShoppingList}
-                                                    shoppinglistitems={shoppinglistitems}
-                                                    loadCreateForm={this.loadCreateForm}/>
-                                                    )}
-                        />
+                                <Route exact path="/update/:id"
+                                       render={(props) => (this.state.redirect ?
+                                           (<Redirect to={"/"}/>) :
+                                           <UpdateShoppingList
+                                               shoppingListItem={this.getShoppingListItem(props.match.params.id)}
+                                               updateShoppingList={this.updateShoppingList}
+                                               shoppinglistitems={shoppinglistitems}
+                                               loadCreateForm={this.loadCreateForm}
+                                               loggedIn={this.state.loggedIn}
+                                               logout={this.logout}/>)}
+                                />
 
-                        <Route exact path="/createshoppinglist"
-                               render={(props) => ( this.state.redirect ?
-                                                  (<Redirect to={"/"} />) :
-                                                   <CreateShoppingList
-                                                       shoppinglists={this.state.shoppingLists}
-                                                       shoppinglistitems={shoppinglistitems}
-                                                       createShoppingListItem={this.createShoppingListItem}
-                                                       loadCreateForm={this.loadCreateForm}/>
-                                                      )}
-                        />
-                            <Route component={Page404} />
-                        </Switch>
+                                <Route exact path="/createshoppinglist"
+                                       render={(props) => (this.state.redirect ?
+                                           (<Redirect to={"/"}/>) :
+                                           <CreateShoppingList
+                                               shoppinglists={this.state.shoppingLists}
+                                               shoppinglistitems={shoppinglistitems}
+                                               createShoppingListItem={this.createShoppingListItem}
+                                               loadCreateForm={this.loadCreateForm}
+                                               loggedIn={this.state.loggedIn}
+                                               logout={this.logout}/>)}
+                                />
+                                <Route exact path="/login"
+                                       render={(props) => (this.state.redirect ?
+                                               (<Redirect to={"/"}/>) :
+                                                <LoginForm
+                                               login={this.login}
+                                               loadCreateForm={this.loadCreateForm}
+                                               loggedIn={this.state.loggedIn}
+                                               loginErrorMsg={this.state.loginErrorMsg}/>
+                                       )}
+                                />
+                                <Route component={Page404}/>
+                            </Switch>
+                        </div>
                     </div>
-                </div>
-            </Router>
-
+                    </Router>
         )
     }
 }
