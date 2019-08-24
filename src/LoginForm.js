@@ -11,6 +11,7 @@ class LoginForm extends Component {
             <div className="container mt-5">
                 {loginErrorMsg ? <div className="alert alert-warning"><strong>Warning!</strong> Invalid email address or password.</div> : "" }
                 <h2 className="py-3">Login</h2>
+                <p><i>(For testing use: email: <b>user@example.com</b> and password: <b>password</b>.)</i></p>
                 <form className="loginForm" action="#" method="post" onSubmit={login}>
                     <div className="form-group">
                         <label className="mr-5" htmlFor="email">Email:</label>
