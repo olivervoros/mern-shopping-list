@@ -34,7 +34,12 @@ class App extends Component {
 
         event.preventDefault();
 
-        const id = this.state.shoppingLists.length + 1;
+        let maxId = 0;
+        this.state.shoppingLists.forEach(item => {
+            if (item.id > maxId) {
+                maxId = item.id;
+            }
+        });
         const title = document.getElementById("title").value;
         const author = document.getElementById("author").value;
         const userDate = document.getElementById("date").value;
@@ -43,7 +48,7 @@ class App extends Component {
         const items = this.getShoppingListItemsFromForm();
 
         this.setState({
-            shoppingLists: [...this.state.shoppingLists, {id: id, title: title, author: author, date: date, items: items}]
+            shoppingLists: [...this.state.shoppingLists, {id: ++maxId, title: title, author: author, date: date, items: items}]
         });
 
         this.setState((state) => {
