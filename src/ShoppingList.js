@@ -19,10 +19,12 @@ class ShoppingList extends Component {
             return <Redirect to="/login"/>
         }
 
+        const REACT_VERSION = React.version;
+
         return (
             <div>
                 <Nav loadCreateForm={loadCreateForm} loggedIn={loggedIn} logout={logout}></Nav>
-                <h3 className="py-3">REACTJS - Shopping List Manager</h3>
+                <h3 className="py-3">REACTJS version:{REACT_VERSION} - Shopping List Manager</h3>
                 <table className="table table-striped">
                     <thead>
                     <tr>

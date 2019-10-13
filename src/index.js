@@ -48,11 +48,8 @@ class App extends Component {
         const items = this.getShoppingListItemsFromForm();
 
         this.setState({
-            shoppingLists: [...this.state.shoppingLists, {id: ++maxId, title: title, author: author, date: date, items: items}]
-        });
-
-        this.setState((state) => {
-            state.redirect = true;
+            shoppingLists: [...this.state.shoppingLists, {id: ++maxId, title: title, author: author, date: date, items: items}],
+            redirect : true
         });
 
     }
@@ -70,15 +67,14 @@ class App extends Component {
 
         const items = this.getShoppingListItemsFromForm();
 
-        this.setState((state) => {
-            state.shoppingLists[objIndex] = {id: id, title: title, author: author, date: date, items: items};
-        });
+        const cloneShoppingLists = [...this.state.shoppingLists];
+
+        cloneShoppingLists[objIndex] = {id: id, title: title, author: author, date: date, items: items};
 
         this.setState({
+            shoppingLists: cloneShoppingLists,
             redirect: true
         });
-
-        return false;
 
     }
 
@@ -159,7 +155,7 @@ class App extends Component {
     }
 
     getShoppingListItemsArray = () => {
-        return ['milk', 'eggs', 'water', 'apples'];
+        return ['milk', 'eggs', 'water', 'apples', 'csoki maci'];
     }
 
     render() {
