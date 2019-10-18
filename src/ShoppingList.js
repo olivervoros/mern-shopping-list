@@ -15,9 +15,10 @@ class ShoppingList extends Component {
     render() {
         const { shoppinglists, deleteShoppingListItem, loadCreateForm, loggedIn, logout } = this.props;
 
-        if(!loggedIn) {
-            return <Redirect to="/login"/>
-        }
+        // TODO: uncomment!
+        //if(!loggedIn) {
+         //   return <Redirect to="/login"/>
+        //}
 
         const REACT_VERSION = React.version;
 

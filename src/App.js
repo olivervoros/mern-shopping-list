@@ -5,143 +5,10 @@ import UpdateShoppingList from './UpdateShoppingList';
 import CreateShoppingList from './CreateShoppingList';
 import LoginForm from './LoginForm';
 import Page404 from './Page404';
-import {convertUserDateToJS} from "./Helper";
+import {connect} from 'react-redux';
 
 class App extends Component {
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            loggedIn : false,
-            loginErrorMsg : false,
-            shoppingLists: [
-                {id: 1, title: "Oliver's Shopping list 2019 08 10.", author: "Oliver", date: new Date("10 03 1980"), items : {'milk': 1, 'eggs': 2, 'water': 3, 'apples': 4}},
-                {id: 2, title: "Aldi Shopping list 2019 06 22.", author: "Oliver", date: new Date("11 12 1950"), items : {'milk': 5, 'eggs': 6, 'water': 7, 'apples': 8}},
-                {id: 3, title: "Gardening Shopping list.", author: "Oliver", date: new Date("07 10 1979"), items : {'milk': 9, 'eggs': 10, 'water': 11, 'apples': 12}},
-                {id: 4, title: "Just added a new list item.", author: "Oliver", date: new Date("11 15 2016"), items : {'milk': 13, 'eggs': 14, 'water': 15, 'apples': 16}},
-                {id: 5, title: "Another shopping list.", author: "Bryda", date: new Date("06 04 1956"), items : {'milk': 93, 'eggs': 94, 'water': 95, 'apples': 96}},
-
-            ],
-            fullShoppingList: [],
-        };
-
-    }
-
-    createShoppingListItem = (event) => {
-
-        event.preventDefault();
-
-        let maxId = 0;
-        this.state.shoppingLists.forEach(item => {
-            if (item.id > maxId) {
-                maxId = item.id;
-            }
-        });
-        const title = document.getElementById("title").value;
-        const author = document.getElementById("author").value;
-        const userDate = document.getElementById("date").value;
-        const formattedUserDate = convertUserDateToJS(userDate);
-        const date = new Date(formattedUserDate);
-        const items = this.getShoppingListItemsFromForm();
-
-        this.setState({
-            shoppingLists: [...this.state.shoppingLists, {id: ++maxId, title: title, author: author, date: date, items: items}],
-            redirect : true
-        });
-
-    }
-
-    updateShoppingList = (event) => {
-        event.preventDefault();
-
-        const id = parseInt(document.getElementById("id").value);
-        const objIndex = this.state.shoppingLists.findIndex((obj => parseInt(obj.id) === id));
-        const title = document.getElementById("title").value;
-        const author = document.getElementById("author").value;
-        const userDate = document.getElementById("date").value;
-        const formattedUserDate = convertUserDateToJS(userDate);
-        const date = new Date(formattedUserDate);
-
-        const items = this.getShoppingListItemsFromForm();
-
-        const cloneShoppingLists = [...this.state.shoppingLists];
-
-        cloneShoppingLists[objIndex] = {id: id, title: title, author: author, date: date, items: items};
-
-        this.setState({
-            shoppingLists: cloneShoppingLists,
-            redirect: true
-        });
-
-    }
-
-    getShoppingListItem = (id) => {
-
-        const result = this.state.shoppingLists.find(item => parseInt(item.id) === parseInt(id));
-        return (result) ? result : {};
-
-
-    }
-
-    deleteShoppingListItem = (event) => {
-
-        event.preventDefault();
-
-
-        const id = parseInt(event.target.id);
-
-        const filteredShoppingList = this.state.shoppingLists.filter((value, index, arr) => {
-            return parseInt(value.id) !== id;
-
-        });
-
-        this.setState({shoppingLists: filteredShoppingList});
-
-        return false;
-    }
-
-    loadCreateForm = (event) => {
-        this.setState((state) => {
-            state.redirect = false;
-        });
-    }
-
-    login = (event) => {
-        event.preventDefault();
-
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
-
-        if(email==='user@example.com' && password==='password') {
-
-
-            this.setState({
-                loggedIn: true,
-                redirect: true
-            });
-        } else {
-
-            this.setState({
-                loggedIn: false,
-                loginErrorMsg: true
-            });
-
-            return false;
-
-        }
-    }
-
-    logout = (event) => {
-        event.preventDefault();
-
-        this.setState({
-            loggedIn: false,
-            redirect: false,
-            loginErrorMsg: false
-        });
-
-    }
 
     getShoppingListItemsFromForm = () => {
         const milk = document.getElementById("milk").value;
@@ -153,7 +20,7 @@ class App extends Component {
     }
 
     getShoppingListItemsArray = () => {
-        return ['milk', 'eggs', 'water', 'apples', 'csoki maci'];
+        return ['milk', 'eggs', 'water', 'apples'];
     }
 
     render() {
@@ -166,47 +33,48 @@ class App extends Component {
                     <div>
                         <Switch>
                             <Route exact path="/"
-                                   render={(props) =>
+                                   render={() =>
                                        <ShoppingList
-                                           shoppinglists={this.state.shoppingLists}
-                                           deleteShoppingListItem={this.deleteShoppingListItem}
-                                           viewShoppingListItem={this.viewShoppingListItem}
-                                           loadCreateForm={this.loadCreateForm}
-                                           loggedIn={this.state.loggedIn}
-                                           logout={this.logout}/>}
+                                           shoppinglists={this.props.shoppingLists}
+                                           deleteShoppingListItem={this.props.deleteShoppingListItem}
+                                           viewShoppingListItem={this.props.viewShoppingListItem}
+                                           loadCreateForm={this.props.loadCreateForm}
+                                           loggedIn={this.props.loggedIn}
+                                           logout={this.props.logout}/>}
                             />
 
                             <Route exact path="/update/:id"
-                                   render={(props) => (this.state.redirect ?
+                                   render={(props) => (this.props.redirect ?
                                        (<Redirect to={"/"}/>) :
                                        <UpdateShoppingList
-                                           shoppingListItem={this.getShoppingListItem(props.match.params.id)}
-                                           updateShoppingList={this.updateShoppingList}
+                                           shoppingListItemToUpdateID={props.match.params.id}
+                                           shoppinglists={this.props.shoppingLists}
+                                           updateShoppingList={this.props.updateShoppingList}
                                            shoppinglistitems={shoppinglistitems}
-                                           loadCreateForm={this.loadCreateForm}
-                                           loggedIn={this.state.loggedIn}
-                                           logout={this.logout}/>)}
+                                           loadCreateForm={this.props.loadCreateForm}
+                                           loggedIn={this.props.loggedIn}
+                                           logout={this.props.logout}/>)}
                             />
 
                             <Route exact path="/createshoppinglist"
-                                   render={(props) => (this.state.redirect ?
+                                   render={() => (this.props.redirect ?
                                        (<Redirect to={"/"}/>) :
                                        <CreateShoppingList
-                                           shoppinglists={this.state.shoppingLists}
+                                           shoppinglists={this.props.shoppingLists}
                                            shoppinglistitems={shoppinglistitems}
-                                           createShoppingListItem={this.createShoppingListItem}
-                                           loadCreateForm={this.loadCreateForm}
-                                           loggedIn={this.state.loggedIn}
+                                           createShoppingListItem={this.props.createShoppingListItem}
+                                           loadCreateForm={this.props.loadCreateForm}
+                                           loggedIn={this.props.loggedIn}
                                            logout={this.logout}/>)}
                             />
                             <Route exact path="/login"
-                                   render={(props) => (this.state.redirect ?
+                                   render={() => (this.props.redirect ?
                                            (<Redirect to={"/"}/>) :
                                            <LoginForm
-                                               login={this.login}
-                                               loadCreateForm={this.loadCreateForm}
-                                               loggedIn={this.state.loggedIn}
-                                               loginErrorMsg={this.state.loginErrorMsg}/>
+                                               login={this.props.login}
+                                               loadCreateForm={this.props.loadCreateForm}
+                                               loggedIn={this.props.loggedIn}
+                                               loginErrorMsg={this.props.loginErrorMsg}/>
                                    )}
                             />
                             <Route component={Page404}/>
@@ -218,4 +86,24 @@ class App extends Component {
     }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+    return {
+        loggedIn : state.loggedIn,
+        loginErrorMsg : state.loginErrorMsg,
+        shoppingLists: state.shoppingLists,
+        fullShoppingList: state.fullShoppingList
+    }
+}
+const mapDispatchToProps =  (dispatch) => {
+    return {
+        createShoppingListItem: (event) => dispatch({type: 'CREATE_SHOPPING_LIST_ITEM', event: event}),
+        updateShoppingList: (event) => dispatch({type: 'UPDATE_SHOPPING_LIST', event: event}),
+        getShoppingListItem: (id) => dispatch({type: 'GET_SHOPPING_LIST_ITEM', id: id}),
+        deleteShoppingListItem: (event) => dispatch({type: 'DELETE_SHOPPING_LIST_ITEM', event: event}),
+        loadCreateForm: () => dispatch({type: 'LOAD_CREATE_FORM'}),
+        login: (event) => dispatch({type: 'LOGIN', event: event}),
+        logout: (event) => dispatch({type: 'LOGOUT', event: event}),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

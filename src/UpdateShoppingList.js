@@ -8,22 +8,25 @@ class UpdateShoppingList extends Component {
 
 
     static propTypes = {
-        shoppingListItem: PropTypes.object.isRequired,
         updateShoppingList: PropTypes.func.isRequired,
         loadCreateForm : PropTypes.func.isRequired
     }
 
     render() {
-        const { shoppingListItem, updateShoppingList, loadCreateForm, loggedIn, logout } = this.props;
+        const { shoppinglists, updateShoppingList, loadCreateForm, loggedIn, logout, shoppingListItemToUpdateID } = this.props;
+
+        console.log(shoppinglists);
+
+        const shoppingListItem = shoppinglists.find(item => parseInt(item.id) === parseInt(shoppingListItemToUpdateID));
 
         const items = (typeof shoppingListItem.items === 'undefined') ? false : shoppingListItem.items;
-        if(!items) {
-            return <Redirect to="/404"/>
-        }
-
-        if(!loggedIn) {
-            return <Redirect to="/login"/>
-        }
+        //if(!items) {
+        //    return <Redirect to="/404"/>
+        //}
+        // todo uncomment
+        //if(!loggedIn) {
+        //    return <Redirect to="/login"/>
+        //}
 
         const shoppingItems = Object.keys(items).map(key =>
             <div className="form-group" key={key}><label className="mr-5" htmlFor="{key}">{capitaliseString(key)}:</label> <input key={key} id={key} name={key} defaultValue={items[key]} type="text"/></div>
