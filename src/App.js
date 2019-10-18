@@ -10,15 +10,6 @@ import {connect} from 'react-redux';
 class App extends Component {
 
 
-    getShoppingListItemsFromForm = () => {
-        const milk = document.getElementById("milk").value;
-        const eggs = document.getElementById("eggs").value;
-        const water = document.getElementById("water").value;
-        const apples = document.getElementById("apples").value;
-
-        return {'milk': milk, 'eggs': eggs, 'water': water, 'apples': apples}
-    }
-
     getShoppingListItemsArray = () => {
         return ['milk', 'eggs', 'water', 'apples'];
     }
@@ -91,7 +82,8 @@ const mapStateToProps = (state) => {
         loggedIn : state.loggedIn,
         loginErrorMsg : state.loginErrorMsg,
         shoppingLists: state.shoppingLists,
-        fullShoppingList: state.fullShoppingList
+        fullShoppingList: state.fullShoppingList,
+        redirect : state.redirect
     }
 }
 const mapDispatchToProps =  (dispatch) => {

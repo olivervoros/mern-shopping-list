@@ -43,7 +43,7 @@ const reducer = (state = initialState, action) => {
         const userDate = document.getElementById("date").value;
         const formattedUserDate = convertUserDateToJS(userDate);
         const date = new Date(formattedUserDate);
-        const items = action.list;
+        const items = getShoppingListItemsFromForm();
 
         newState.shoppingLists = [...newState.shoppingLists, {id: ++maxId, title: title, author: author, date: date, items: items}];
         newState.redirect = true;
@@ -54,7 +54,7 @@ const reducer = (state = initialState, action) => {
         action.event.preventDefault();
 
         const id = parseInt(document.getElementById("id").value);
-        const objIndex = newState.shoppingLists.findIndex((obj => parseInt(obj.id) === action.id));
+        const objIndex = newState.shoppingLists.findIndex((obj => parseInt(obj.id) === id));
         const title = document.getElementById("title").value;
         const author = document.getElementById("author").value;
         const userDate = document.getElementById("date").value;
@@ -103,6 +103,8 @@ const reducer = (state = initialState, action) => {
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
 
+        console.log(email);
+
         if(email==='user@example.com' && password==='password') {
 
             newState.loggedIn = true;
@@ -111,7 +113,8 @@ const reducer = (state = initialState, action) => {
         } else {
 
             newState.loggedIn = false;
-            newState.redirect = true;
+            newState.redirect = false;
+            newState.loginErrorMsg = true;
 
         }
     }

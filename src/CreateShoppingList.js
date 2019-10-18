@@ -14,10 +14,10 @@ class CreateShoppingList extends Component {
 
     render() {
         const { createShoppingListItem, loadCreateForm, loggedIn, logout } = this.props;
-        // todo: remove
-        //if(!loggedIn) {
-        //    return <Redirect to="/login"/>
-        //}
+
+        if(!loggedIn) {
+            return <Redirect to="/login"/>
+        }
 
         const items = (this.props.shoppinglistitems);
         const shoppingItems = Object.keys(items).map(key =>
