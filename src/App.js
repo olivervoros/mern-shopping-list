@@ -6,17 +6,13 @@ import CreateShoppingList from './CreateShoppingList';
 import LoginForm from './LoginForm';
 import Page404 from './Page404';
 import {connect} from 'react-redux';
+import {getShoppingListItemsArray} from "./Helper";
 
 class App extends Component {
 
-
-    getShoppingListItemsArray = () => {
-        return ['milk', 'eggs', 'water', 'apples'];
-    }
-
     render() {
 
-        const shoppinglistitems = this.getShoppingListItemsArray();
+        const shoppinglistitems = getShoppingListItemsArray();
 
         return (
             <Router>
@@ -90,7 +86,6 @@ const mapDispatchToProps =  (dispatch) => {
     return {
         createShoppingListItem: (event) => dispatch({type: 'CREATE_SHOPPING_LIST_ITEM', event: event}),
         updateShoppingList: (event) => dispatch({type: 'UPDATE_SHOPPING_LIST', event: event}),
-        getShoppingListItem: (id) => dispatch({type: 'GET_SHOPPING_LIST_ITEM', id: id}),
         deleteShoppingListItem: (event) => dispatch({type: 'DELETE_SHOPPING_LIST_ITEM', event: event}),
         loadCreateForm: () => dispatch({type: 'LOAD_CREATE_FORM'}),
         login: (event) => dispatch({type: 'LOGIN', event: event}),
