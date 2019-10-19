@@ -9,13 +9,17 @@ class UpdateShoppingList extends Component {
 
     static propTypes = {
         updateShoppingList: PropTypes.func.isRequired,
-        loadCreateForm : PropTypes.func.isRequired
+        loadCreateForm : PropTypes.func.isRequired,
+        shoppingLists : PropTypes.array,
+        loggedIn: PropTypes.bool,
+        logout: PropTypes.bool,
+        shoppingListItemToUpdateID: PropTypes.number
     }
 
     render() {
-        const { shoppinglists, updateShoppingList, loadCreateForm, loggedIn, logout, shoppingListItemToUpdateID } = this.props;
+        const { shoppingLists, updateShoppingList, loadCreateForm, loggedIn, logout, shoppingListItemToUpdateID } = this.props;
 
-        const shoppingListItem = shoppinglists.find(item => parseInt(item.id) === parseInt(shoppingListItemToUpdateID));
+        const shoppingListItem = shoppingLists.find(item => parseInt(item.id) === parseInt(shoppingListItemToUpdateID));
 
         if(!shoppingListItem) {
             return <Redirect to="/404"/>

@@ -12,7 +12,7 @@ class App extends Component {
 
     render() {
 
-        const shoppinglistitems = getShoppingListItemsArray();
+        const shoppingListItems = getShoppingListItemsArray();
 
         return (
             <Router>
@@ -22,9 +22,8 @@ class App extends Component {
                             <Route exact path="/"
                                    render={() =>
                                        <ShoppingList
-                                           shoppinglists={this.props.shoppingLists}
+                                           shoppingLists={this.props.shoppingLists}
                                            deleteShoppingListItem={this.props.deleteShoppingListItem}
-                                           viewShoppingListItem={this.props.viewShoppingListItem}
                                            loadCreateForm={this.props.loadCreateForm}
                                            loggedIn={this.props.loggedIn}
                                            logout={this.props.logout}/>}
@@ -35,9 +34,8 @@ class App extends Component {
                                        (<Redirect to={"/"}/>) :
                                        <UpdateShoppingList
                                            shoppingListItemToUpdateID={props.match.params.id}
-                                           shoppinglists={this.props.shoppingLists}
+                                           shoppingLists={this.props.shoppingLists}
                                            updateShoppingList={this.props.updateShoppingList}
-                                           shoppinglistitems={shoppinglistitems}
                                            loadCreateForm={this.props.loadCreateForm}
                                            loggedIn={this.props.loggedIn}
                                            logout={this.props.logout}/>)}
@@ -47,8 +45,8 @@ class App extends Component {
                                    render={() => (this.props.redirect ?
                                        (<Redirect to={"/"}/>) :
                                        <CreateShoppingList
-                                           shoppinglists={this.props.shoppingLists}
-                                           shoppinglistitems={shoppinglistitems}
+                                           shoppingLists={this.props.shoppingLists}
+                                           shoppingListItems={shoppingListItems}
                                            createShoppingListItem={this.props.createShoppingListItem}
                                            loadCreateForm={this.props.loadCreateForm}
                                            loggedIn={this.props.loggedIn}
@@ -59,8 +57,6 @@ class App extends Component {
                                            (<Redirect to={"/"}/>) :
                                            <LoginForm
                                                login={this.props.login}
-                                               loadCreateForm={this.props.loadCreateForm}
-                                               loggedIn={this.props.loggedIn}
                                                loginErrorMsg={this.props.loginErrorMsg}/>
                                    )}
                             />

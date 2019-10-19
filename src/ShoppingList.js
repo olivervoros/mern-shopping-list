@@ -7,13 +7,15 @@ import {Redirect } from 'react-router-dom'
 class ShoppingList extends Component {
 
     static propTypes = {
-        shoppinglists: PropTypes.array,
+        shoppingLists: PropTypes.array,
         deleteShoppingListItem: PropTypes.func,
-        loadCreateForm: PropTypes.func
+        loadCreateForm: PropTypes.func,
+        loggedIn: PropTypes.bool,
+        logout: PropTypes.bool
     }
 
     render() {
-        const { shoppinglists, deleteShoppingListItem, loadCreateForm, loggedIn, logout } = this.props;
+        const { shoppingLists, deleteShoppingListItem, loadCreateForm, loggedIn, logout } = this.props;
 
         if(!loggedIn) {
             return <Redirect to="/login"/>
@@ -34,12 +36,12 @@ class ShoppingList extends Component {
                     </tr>
                     </thead>
                     <tbody>
-                {shoppinglists.map(
-                    (shoppinglist, i) =>
+                {shoppingLists.map(
+                    (shoppingList, i) =>
                         <ShoppingListItem
                             key={i}
-                            title={shoppinglist.title}
-                            id={shoppinglist.id}
+                            title={shoppingList.title}
+                            id={shoppingList.id}
                             deleteShoppingListItem={deleteShoppingListItem}
                             loadCreateForm={loadCreateForm}
                         />

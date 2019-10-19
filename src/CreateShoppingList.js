@@ -8,20 +8,21 @@ class CreateShoppingList extends Component {
 
     static propTypes = {
         createShoppingListItem: PropTypes.func.isRequired,
-        shoppinglistitems: PropTypes.array.isRequired,
-        loadCreateForm : PropTypes.func.isRequired
+        shoppingListItems: PropTypes.array.isRequired,
+        loadCreateForm : PropTypes.func.isRequired,
+        loggedIn: PropTypes.bool,
+        logout: PropTypes.bool
     }
 
     render() {
-        const { createShoppingListItem, loadCreateForm, loggedIn, logout } = this.props;
+        const { createShoppingListItem, loadCreateForm, loggedIn, logout, shoppingListItems } = this.props;
 
         if(!loggedIn) {
             return <Redirect to="/login"/>
         }
 
-        const items = (this.props.shoppinglistitems);
-        const shoppingItems = Object.keys(items).map(key =>
-            <div key={key} className="form-group"><label className="mr-5">{capitaliseString(items[key])}: </label><input required key={key} id={items[key]} name={items[key]} defaultValue=""  min="0" step="1" type="number"/></div>
+        const shoppingItems = Object.keys(shoppingListItems).map(key =>
+            <div key={key} className="form-group"><label className="mr-5">{capitaliseString(shoppingListItems[key])}: </label><input required key={key} id={shoppingListItems[key]} name={shoppingListItems[key]} defaultValue=""  min="0" step="1" type="number"/></div>
         )
         return(
             <div>
