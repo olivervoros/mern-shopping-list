@@ -33,7 +33,7 @@ class App extends Component {
                                    render={(props) => (this.props.redirect ?
                                        (<Redirect to={"/"}/>) :
                                        <UpdateShoppingList
-                                           shoppingListItemToUpdateID={props.match.params.id}
+                                           shoppingListItemToUpdateID={parseInt(props.match.params.id)}
                                            shoppingLists={this.props.shoppingLists}
                                            updateShoppingList={this.props.updateShoppingList}
                                            loadCreateForm={this.props.loadCreateForm}

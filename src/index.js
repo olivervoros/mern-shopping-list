@@ -6,10 +6,22 @@ import * as serviceWorker from './serviceWorker';
 import App from './App';
 
 import { Provider } from 'react-redux';
-import {createStore} from "redux";
+import {createStore, applyMiddleware} from "redux";
 import reducer from './store/shoppinglistreducer';
+import JSON from 'circular-json';
 
-const store = createStore(reducer);
+
+const logAction = () => {
+    return next => {
+        return action => {
+            const result = next(action);
+            console.log(`Caught in the middleware ${JSON.stringify(result.type)}`);
+            return result;
+        }
+    }
+}
+
+const store = createStore(reducer, applyMiddleware(logAction));
 
 
 //render(<AppWithoutRedux/>, document.getElementById('root'));

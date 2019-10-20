@@ -12,7 +12,7 @@ class UpdateShoppingList extends Component {
         loadCreateForm : PropTypes.func.isRequired,
         shoppingLists : PropTypes.array,
         loggedIn: PropTypes.bool,
-        logout: PropTypes.bool,
+        logout: PropTypes.func,
         shoppingListItemToUpdateID: PropTypes.number
     }
 
