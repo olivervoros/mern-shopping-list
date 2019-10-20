@@ -11,7 +11,7 @@ class ShoppingList extends Component {
         deleteShoppingListItem: PropTypes.func,
         loadCreateForm: PropTypes.func,
         loggedIn: PropTypes.bool,
-        logout: PropTypes.bool
+        logout: PropTypes.func
     }
 
     render() {

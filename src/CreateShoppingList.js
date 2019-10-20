@@ -11,7 +11,7 @@ class CreateShoppingList extends Component {
         shoppingListItems: PropTypes.array.isRequired,
         loadCreateForm : PropTypes.func.isRequired,
         loggedIn: PropTypes.bool,
-        logout: PropTypes.bool
+        logout: PropTypes.func
     }
 
     render() {
