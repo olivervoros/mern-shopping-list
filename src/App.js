@@ -6,6 +6,7 @@ import CreateShoppingList from './CreateShoppingList';
 import LoginForm from './LoginForm';
 import Page404 from './Page404';
 import {connect} from 'react-redux';
+import * as ActionCreator from './store/actions/actions';
 import {getShoppingListItemsArray} from "./Helper";
 
 class App extends Component {
@@ -84,8 +85,8 @@ const mapDispatchToProps =  (dispatch) => {
         updateShoppingList: (event) => dispatch({type: 'UPDATE_SHOPPING_LIST', event: event}),
         deleteShoppingListItem: (event) => dispatch({type: 'DELETE_SHOPPING_LIST_ITEM', event: event}),
         loadCreateForm: () => dispatch({type: 'LOAD_CREATE_FORM'}),
-        login: (event) => dispatch({type: 'LOGIN', event: event}),
-        logout: (event) => dispatch({type: 'LOGOUT', event: event}),
+        login: (event) => dispatch(ActionCreator.login(event)),
+        logout: (event) => dispatch(ActionCreator.logout(event)),
     }
 }
 

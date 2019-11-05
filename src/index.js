@@ -4,12 +4,12 @@ import * as serviceWorker from './serviceWorker';
 //import AppWithRedux from './AppWithoutRedux';
 //import AppWithoutRedux from './AppWithoutRedux';
 import App from './App';
-
 import { Provider } from 'react-redux';
-import {createStore} from "redux";
-import reducer from './store/shoppinglistreducer';
+import {createStore, applyMiddleware} from "redux";
+import reducer from './store/reducers/shoppinglistreducer';
+import thunk from 'redux-thunk';
 
-const store = createStore(reducer);
+const store = createStore(reducer, applyMiddleware(thunk));
 
 
 //render(<AppWithoutRedux/>, document.getElementById('root'));

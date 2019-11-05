@@ -1,4 +1,4 @@
-import {convertUserDateToJS, getShoppingListItemsFromForm, getDefaultShoppingListData} from "../Helper";
+import {convertUserDateToJS, getShoppingListItemsFromForm, getDefaultShoppingListData} from "../../Helper";
 
 const initialState = {
     loggedIn : false,
