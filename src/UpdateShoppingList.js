@@ -13,13 +13,13 @@ class UpdateShoppingList extends Component {
         shoppingLists : PropTypes.array,
         loggedIn: PropTypes.bool,
         logout: PropTypes.func,
-        shoppingListItemToUpdateID: PropTypes.number
+        shoppingListItemToUpdateID: PropTypes.string
     }
 
     render() {
         const { shoppingLists, updateShoppingList, loadCreateForm, loggedIn, logout, shoppingListItemToUpdateID } = this.props;
 
-        const shoppingListItem = shoppingLists.find(item => parseInt(item.id) === parseInt(shoppingListItemToUpdateID));
+        const shoppingListItem = shoppingLists.find(item => item._id === shoppingListItemToUpdateID);
 
         if(!shoppingListItem) {
             return <Redirect to="/404"/>
@@ -40,7 +40,7 @@ class UpdateShoppingList extends Component {
                 <Nav loadCreateForm={loadCreateForm} loggedIn={loggedIn} logout={logout}></Nav>
             <h2 className="py-3">Update the shopping list</h2>
             <form className="updateShoppingListForm" action="#" method="post" onSubmit={ updateShoppingList }>
-                <input id="id" name="id" readOnly  value={shoppingListItem.id} type="hidden"/>
+                <input id="id" name="id" readOnly  value={shoppingListItem._id} type="hidden"/>
                 <div className="form-group">
                     <label className="mr-5" htmlFor="title">Title:</label>
                     <input required id="title" name="title" defaultValue={shoppingListItem.title} type="text"/>

@@ -11,6 +11,10 @@ import {getShoppingListItemsArray} from "./Helper";
 
 class App extends Component {
 
+    componentDidMount() {
+        this.props.getAllShoppingListItems();
+    }
+
     render() {
 
         const shoppingListItems = getShoppingListItemsArray();
@@ -34,7 +38,7 @@ class App extends Component {
                                    render={(props) => (this.props.redirect ?
                                        (<Redirect to={"/"}/>) :
                                        <UpdateShoppingList
-                                           shoppingListItemToUpdateID={parseInt(props.match.params.id)}
+                                           shoppingListItemToUpdateID={props.match.params.id}
                                            shoppingLists={this.props.shoppingLists}
                                            updateShoppingList={this.props.updateShoppingList}
                                            loadCreateForm={this.props.loadCreateForm}
@@ -79,11 +83,12 @@ const mapStateToProps = (state) => {
         redirect : state.redirect
     }
 }
-const mapDispatchToProps =  (dispatch) => {
+const mapDispatchToProps = (dispatch) => {
     return {
-        createShoppingListItem: (event) => dispatch({type: 'CREATE_SHOPPING_LIST_ITEM', event: event}),
-        updateShoppingList: (event) => dispatch({type: 'UPDATE_SHOPPING_LIST', event: event}),
-        deleteShoppingListItem: (event) => dispatch({type: 'DELETE_SHOPPING_LIST_ITEM', event: event}),
+        getAllShoppingListItems: () => dispatch(ActionCreator.loadAllShoppingLists()),
+        createShoppingListItem: (event) => dispatch(ActionCreator.createNewShoppingList(event)),
+        updateShoppingList: (event) => dispatch(ActionCreator.updateShoppingList(event)),
+        deleteShoppingListItem: (event) => dispatch(ActionCreator.deleteShoppingList(event)),
         loadCreateForm: () => dispatch({type: 'LOAD_CREATE_FORM'}),
         login: (event) => dispatch(ActionCreator.login(event)),
         logout: (event) => dispatch(ActionCreator.logout(event)),

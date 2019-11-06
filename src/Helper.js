@@ -8,7 +8,8 @@ export function convertUserDateToJS(userDate) {
 
 // converts to mm dd yy TO dd/mm/yy
 export function convertJSToUserDate(date) {
-    return  date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear();
+    let JSDate = new Date(date);
+    return  JSDate.getDate() + "/" + (JSDate.getMonth()+1) + "/" + JSDate.getFullYear();
 }
 
 export function capitaliseString(string) {

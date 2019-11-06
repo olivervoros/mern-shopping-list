@@ -39,7 +39,7 @@ class ShoppingList extends Component {
                         <ShoppingListItem
                             key={i}
                             title={shoppingList.title}
-                            id={shoppingList.id}
+                            _id={shoppingList._id}
                             deleteShoppingListItem={deleteShoppingListItem}
                             loadCreateForm={loadCreateForm}
                         />

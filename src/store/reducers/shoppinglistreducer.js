@@ -1,67 +1,44 @@
-import {convertUserDateToJS, getShoppingListItemsFromForm, getDefaultShoppingListData} from "../../Helper";
 
 const initialState = {
-    loggedIn : false,
+    loggedIn : true, // TODO: change back to false after testing...
     loginErrorMsg : false,
     redirect : false,
-    shoppingLists: getDefaultShoppingListData(),
+    shoppingLists: [],
     fullShoppingList: []
 };
 
 const reducer = (state = initialState, action) => {
     const newState = {...state};
 
+    if(action.type==='GET_ALL_SHOPPING_LISTS') {
+
+        newState.shoppingLists = action.shoppingLists.data;
+
+    }
+
     if(action.type==='CREATE_SHOPPING_LIST_ITEM') {
-        action.event.preventDefault();
 
-        let maxId = 0;
-        newState.shoppingLists.forEach(item => {
-            if (item.id > maxId) {
-                maxId = item.id;
-            }
-        });
-        const title = document.getElementById("title").value;
-        const author = document.getElementById("author").value;
-        const userDate = document.getElementById("date").value;
-        const formattedUserDate = convertUserDateToJS(userDate);
-        const date = new Date(formattedUserDate);
-        const items = getShoppingListItemsFromForm();
-
-        newState.shoppingLists = [...newState.shoppingLists, {id: ++maxId, title: title, author: author, date: date, items: items}];
+        newState.shoppingLists = [...newState.shoppingLists, action.newShoppingListItem.data];
         newState.redirect = true;
     }
 
     if(action.type==='UPDATE_SHOPPING_LIST') {
-        action.event.preventDefault();
 
-        const id = parseInt(document.getElementById("id").value);
-        const objIndex = newState.shoppingLists.findIndex((obj => parseInt(obj.id) === id));
-        const title = document.getElementById("title").value;
-        const author = document.getElementById("author").value;
-        const userDate = document.getElementById("date").value;
-        const formattedUserDate = convertUserDateToJS(userDate);
-        const date = new Date(formattedUserDate);
-
-        const items = getShoppingListItemsFromForm();
-
-        const cloneShoppingLists = [...newState.shoppingLists];
-
-        cloneShoppingLists[objIndex] = {id: id, title: title, author: author, date: date, items: items};
-
-        newState.shoppingLists = cloneShoppingLists;
+        newState.shoppingLists = action.shoppingLists.data;
         newState.redirect = true;
     }
 
 
     if(action.type==='DELETE_SHOPPING_LIST_ITEM') {
-        action.event.preventDefault();
-
-
-        const id = parseInt(action.event.target.id);
 
         const filteredShoppingList = newState.shoppingLists.filter((value, index, arr) => {
-            return parseInt(value.id) !== id;
+            console.log("VALUE:");
+            console.log(value._id);
 
+            console.log("ACTION:");
+            console.log(action.deletedShoppingList.data.deletedId);
+
+            return value._id !== action.deletedShoppingList.data.deletedId;
         });
 
         newState.shoppingLists = filteredShoppingList;
