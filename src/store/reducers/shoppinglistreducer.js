@@ -1,6 +1,6 @@
 
 const initialState = {
-    loggedIn : true, // TODO: change back to false after testing...
+    loggedIn : false,
     loginErrorMsg : false,
     redirect : false,
     shoppingLists: [],
@@ -32,11 +32,6 @@ const reducer = (state = initialState, action) => {
     if(action.type==='DELETE_SHOPPING_LIST_ITEM') {
 
         const filteredShoppingList = newState.shoppingLists.filter((value, index, arr) => {
-            console.log("VALUE:");
-            console.log(value._id);
-
-            console.log("ACTION:");
-            console.log(action.deletedShoppingList.data.deletedId);
 
             return value._id !== action.deletedShoppingList.data.deletedId;
         });

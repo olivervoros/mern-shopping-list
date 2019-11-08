@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getShoppingListItemsFromForm } from "../../Helper";
+import { getShoppingListItemsFromForm, API_ENDPOINT } from "../../Helper";
 
 export const loginAsync = (event) => {
     return { type: 'LOGIN', event: event }
@@ -19,7 +19,7 @@ export const logout = (event) => {
 export const loadAllShoppingLists = () => async dispatch => {
     try {
         let shoppingLists = await axios.get(
-            "http://localhost:2000/shoppinglists"
+            API_ENDPOINT+"/shoppinglists"
         );
         // You're dispatching not only the metadata, but also setting isDataInitialized to true, to denote, that data has been loaded
         dispatch({ type: "GET_ALL_SHOPPING_LISTS", shoppingLists });
@@ -42,7 +42,7 @@ export const createNewShoppingList = (event) => async dispatch => {
 
     try {
         let newShoppingListItem = await axios.post(
-            "http://localhost:2000/shoppinglists", payload
+            API_ENDPOINT+"/shoppinglists", payload
         );
         // You're dispatching not only the metadata, but also setting isDataInitialized to true, to denote, that data has been loaded
         dispatch({ type: "CREATE_SHOPPING_LIST_ITEM", newShoppingListItem });
@@ -64,8 +64,8 @@ export const updateShoppingList = (event) => async dispatch => {
     let payload = {title: title, author: author, date: userDate, items: items};
 
     try {
-        let updatedShoppingListItem = await axios.put(
-            "http://localhost:2000/shoppinglists/" + id, payload
+        await axios.put(
+            API_ENDPOINT+"/shoppinglists/" + id, payload
         );
         // You're dispatching not only the metadata, but also setting isDataInitialized to true, to denote, that data has been loaded
     } catch (error) {
@@ -74,7 +74,7 @@ export const updateShoppingList = (event) => async dispatch => {
 
     try {
         let shoppingLists = await axios.get(
-            "http://localhost:2000/shoppinglists"
+            API_ENDPOINT+"/shoppinglists"
         );
         // You're dispatching not only the metadata, but also setting isDataInitialized to true, to denote, that data has been loaded
         dispatch({ type: "UPDATE_SHOPPING_LIST", shoppingLists });
@@ -91,7 +91,7 @@ export const deleteShoppingList = (event) => async dispatch => {
 
     try {
         let deletedShoppingList = await axios.delete(
-            "http://localhost:2000/shoppinglists/"+id
+            API_ENDPOINT+"/shoppinglists/"+id
         );
         // You're dispatching not only the metadata, but also setting isDataInitialized to true, to denote, that data has been loaded
         dispatch({ type: "DELETE_SHOPPING_LIST_ITEM", deletedShoppingList });
