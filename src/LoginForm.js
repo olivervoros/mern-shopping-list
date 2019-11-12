@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from "prop-types";
+import {Redirect } from 'react-router-dom'
 
 class LoginForm extends Component {
 
@@ -10,7 +11,11 @@ class LoginForm extends Component {
 
     render() {
 
-        const { login, loginErrorMsg } = this.props;
+        const { login, loginErrorMsg, loggedIn } = this.props;
+
+        if(loggedIn) {
+            return <Redirect to="/"/>
+        }
 
         return (
 

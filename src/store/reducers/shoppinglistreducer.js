@@ -1,6 +1,8 @@
+import Cookie from "js-cookie"
+import { getAuthTokenFromCookie } from "../../Helper";
 
 const initialState = {
-    loggedIn : false,
+    loggedIn : !!getAuthTokenFromCookie(),
     loginErrorMsg : false,
     redirect : false,
     shoppingLists: [],
@@ -44,27 +46,27 @@ const reducer = (state = initialState, action) => {
     }
 
     if(action.type==='LOGIN') {
-        action.event.preventDefault();
+        console.log(action.res);
+        if(action.res && action.res.data.auth===true) {
 
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
-
-        if(email==='user@example.com' && password==='password') {
+            Cookie.set("token", action.res.data.token);
 
             newState.loggedIn = true;
             newState.redirect = true;
+            newState.loginErrorMsg = false;
 
         } else {
 
             newState.loggedIn = false;
             newState.redirect = false;
             newState.loginErrorMsg = true;
-
         }
     }
 
     if(action.type==='LOGOUT') {
         action.event.preventDefault();
+
+        Cookie.set('token', "");
 
         newState.loggedIn = false;
         newState.redirect = false;

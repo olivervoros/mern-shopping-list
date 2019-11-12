@@ -1,14 +1,23 @@
 import axios from "axios";
-import { getShoppingListItemsFromForm, API_ENDPOINT } from "../../Helper";
+import { getShoppingListItemsFromForm, API_ENDPOINT, getAuthTokenFromCookie } from "../../Helper";
 
-export const loginAsync = (event) => {
-    return { type: 'LOGIN', event: event }
-}
-
-export const login = (event) => {
+export const login = (event) => async dispatch => {
     event.preventDefault();
-    return dispatch => {
-        setTimeout(() => { dispatch(loginAsync(event)) }, 500);
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    let payload = {email: email, password: password};
+
+    try {
+        let res = await axios.post(
+            API_ENDPOINT+"/login", payload, { headers: {"x-access-token" : getAuthTokenFromCookie()}}
+        );
+        // You're dispatching not only the metadata, but also setting isDataInitialized to true, to denote, that data has been loaded
+        dispatch({ type: "LOGIN", res });
+    } catch (error) {
+        console.log(error);
+        dispatch({ type: "LOGIN" });
     }
 }
 
@@ -17,9 +26,10 @@ export const logout = (event) => {
 }
 
 export const loadAllShoppingLists = () => async dispatch => {
+
     try {
         let shoppingLists = await axios.get(
-            API_ENDPOINT+"/shoppinglists"
+            API_ENDPOINT+"/shoppinglists", { headers: {"x-access-token" : getAuthTokenFromCookie()}}
         );
         // You're dispatching not only the metadata, but also setting isDataInitialized to true, to denote, that data has been loaded
         dispatch({ type: "GET_ALL_SHOPPING_LISTS", shoppingLists });
@@ -39,10 +49,9 @@ export const createNewShoppingList = (event) => async dispatch => {
 
     let payload = {title: title, author: author, date: userDate, items: items};
 
-
     try {
         let newShoppingListItem = await axios.post(
-            API_ENDPOINT+"/shoppinglists", payload
+            API_ENDPOINT+"/shoppinglists", payload, { headers: {"x-access-token" : getAuthTokenFromCookie() }}
         );
         // You're dispatching not only the metadata, but also setting isDataInitialized to true, to denote, that data has been loaded
         dispatch({ type: "CREATE_SHOPPING_LIST_ITEM", newShoppingListItem });
@@ -65,7 +74,7 @@ export const updateShoppingList = (event) => async dispatch => {
 
     try {
         await axios.put(
-            API_ENDPOINT+"/shoppinglists/" + id, payload
+            API_ENDPOINT+"/shoppinglists/" + id, payload, { headers: {"x-access-token" : getAuthTokenFromCookie()}}
         );
         // You're dispatching not only the metadata, but also setting isDataInitialized to true, to denote, that data has been loaded
     } catch (error) {
@@ -74,7 +83,7 @@ export const updateShoppingList = (event) => async dispatch => {
 
     try {
         let shoppingLists = await axios.get(
-            API_ENDPOINT+"/shoppinglists"
+            API_ENDPOINT+"/shoppinglists", { headers: {"x-access-token" : getAuthTokenFromCookie()}}
         );
         // You're dispatching not only the metadata, but also setting isDataInitialized to true, to denote, that data has been loaded
         dispatch({ type: "UPDATE_SHOPPING_LIST", shoppingLists });
@@ -88,10 +97,9 @@ export const deleteShoppingList = (event) => async dispatch => {
     event.preventDefault();
 
     const id = event.target.id;
-
     try {
         let deletedShoppingList = await axios.delete(
-            API_ENDPOINT+"/shoppinglists/"+id
+            API_ENDPOINT+"/shoppinglists/"+id, { headers: {"x-access-token" : getAuthTokenFromCookie()}}
         );
         // You're dispatching not only the metadata, but also setting isDataInitialized to true, to denote, that data has been loaded
         dispatch({ type: "DELETE_SHOPPING_LIST_ITEM", deletedShoppingList });

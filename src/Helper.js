@@ -1,6 +1,6 @@
+import Cookie from "js-cookie";
 
-
-export const API_ENDPOINT = 'http://localhost:2000';
+export const API_ENDPOINT = 'http://localhost:2000/api';
 
 // converts to mm dd yy TO dd/mm/yy
 export function convertJSToUserDate(date) {
@@ -23,4 +23,9 @@ export function getShoppingListItemsFromForm() {
     const apples = document.getElementById("apples").value;
 
     return {'milk': milk, 'eggs': eggs, 'water': water, 'apples': apples}
+}
+
+export function getAuthTokenFromCookie() {
+
+    return Cookie.get("token") ? Cookie.get("token") : false;
 }

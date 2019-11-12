@@ -58,11 +58,13 @@ class App extends Component {
                                            logout={this.logout}/>)}
                             />
                             <Route exact path="/login"
-                                   render={() => (this.props.redirect ?
+                                   render={() => ((this.props.redirect) ?
                                            (<Redirect to={"/"}/>) :
                                            <LoginForm
                                                login={this.props.login}
-                                               loginErrorMsg={this.props.loginErrorMsg}/>
+                                               loginErrorMsg={this.props.loginErrorMsg}
+                                               loggedIn={this.props.loggedIn}
+                                                />
                                    )}
                             />
                             <Route component={Page404}/>
