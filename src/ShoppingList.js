@@ -12,7 +12,7 @@ class ShoppingList extends Component {
         loadCreateForm: PropTypes.func,
         loggedIn: PropTypes.bool,
         logout: PropTypes.func
-    }
+    };
 
     render() {
         const { shoppingLists, deleteShoppingListItem, loadCreateForm, loggedIn, logout } = this.props;

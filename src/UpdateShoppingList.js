@@ -1,11 +1,18 @@
 import React, { Component } from 'react'
 import PropTypes from "prop-types";
-import { capitaliseString, convertJSToUserDate } from "./Helper";
 import Nav from "./Nav";
-import { Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom';
+import {capitaliseString, getShoppingListItemsArray} from "./Helper";
 
 class UpdateShoppingList extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            title: '',
+            author: ''
+        };
+    }
 
     static propTypes = {
         updateShoppingList: PropTypes.func.isRequired,
@@ -14,6 +21,15 @@ class UpdateShoppingList extends Component {
         loggedIn: PropTypes.bool,
         logout: PropTypes.func,
         shoppingListItemToUpdateID: PropTypes.string
+    };
+
+    updateInputValue(e) {
+        this.setState({[e.target.name]: e.target.value});
+    }
+
+    submitForm(e, updateShoppingList, shoppingListItem) {
+        e.preventDefault();
+        updateShoppingList(this.state, shoppingListItem);
     }
 
     render() {
@@ -32,29 +48,29 @@ class UpdateShoppingList extends Component {
             return <Redirect to="/login"/>
         }
 
+        const ProductsArray = getShoppingListItemsArray();
         const shoppingItems = Object.keys(items).map(key =>
-            <div className="form-group" key={key}><label className="mr-5" htmlFor="{key}">{capitaliseString(key)}:</label> <input key={key} id={key} name={key} defaultValue={items[key]} type="text"/></div>
-        )
+            <div className="form-group" key={key}>
+                <label className="mr-5" htmlFor="{key}">{capitaliseString(ProductsArray[key])}:</label>
+                <input key={key} id={key} name={key} defaultValue={items[key]}  onChange={e => this.updateInputValue(e)} type="text"/>
+            </div>
+        );
         return (
             <div>
                 <Nav loadCreateForm={loadCreateForm} loggedIn={loggedIn} logout={logout}></Nav>
             <h2 className="py-3">Update the shopping list</h2>
-            <form className="updateShoppingListForm" action="#" method="post" onSubmit={ updateShoppingList }>
-                <input id="id" name="id" readOnly  value={shoppingListItem._id} type="hidden"/>
+            <form className="updateShoppingListForm" action="#" method="post">
+                <input id="id" name="id" readOnly type="hidden"/>
                 <div className="form-group">
                     <label className="mr-5" htmlFor="title">Title:</label>
-                    <input required id="title" name="title" defaultValue={shoppingListItem.title} type="text"/>
+                    <input required id="title" name="title" defaultValue={shoppingListItem.title} onChange={e => this.updateInputValue(e)} type="text"/>
                 </div>
                 <div className="form-group">
                     <label className="mr-5" htmlFor="author">Author:</label>
-                    <input required id="author" name="author" defaultValue={shoppingListItem.author} type="text"/>
-                </div>
-                <div className="form-group">
-                    <label className="mr-5" htmlFor="date">Date: DD/MM/YYYY (not editable)</label>
-                    <input required id="date"name="date" defaultValue={convertJSToUserDate(shoppingListItem.date)} readOnly type="text"/>
+                    <input required id="author" name="author" defaultValue={shoppingListItem.author} onChange={e => this.updateInputValue(e)} type="text"/>
                 </div>
                 { shoppingItems }
-                <p><button className="btn btn-success">Update Shopping List</button></p>
+                <p><button className="btn btn-success" onClick={(e) => this.submitForm(e, updateShoppingList, shoppingListItem)}>Update Shopping List</button></p>
             </form>
         </div>
         )

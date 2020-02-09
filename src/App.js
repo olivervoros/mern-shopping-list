@@ -84,17 +84,17 @@ const mapStateToProps = (state) => {
         fullShoppingList: state.fullShoppingList,
         redirect : state.redirect
     }
-}
+};
 const mapDispatchToProps = (dispatch) => {
     return {
         getAllShoppingListItems: () => dispatch(ActionCreator.loadAllShoppingLists()),
-        createShoppingListItem: (event) => dispatch(ActionCreator.createNewShoppingList(event)),
-        updateShoppingList: (event) => dispatch(ActionCreator.updateShoppingList(event)),
+        createShoppingListItem: (args) => dispatch(ActionCreator.createNewShoppingList(args)),
+        updateShoppingList: (args, shoppingListItem) => dispatch(ActionCreator.updateShoppingList(args, shoppingListItem)),
         deleteShoppingListItem: (event) => dispatch(ActionCreator.deleteShoppingList(event)),
         loadCreateForm: () => dispatch({type: 'LOAD_CREATE_FORM'}),
         login: (event) => dispatch(ActionCreator.login(event)),
         logout: (event) => dispatch(ActionCreator.logout(event)),
     }
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

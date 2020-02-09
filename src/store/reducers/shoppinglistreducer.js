@@ -46,10 +46,10 @@ const reducer = (state = initialState, action) => {
     }
 
     if(action.type==='LOGIN') {
-        console.log(action.res);
         if(action.res && action.res.data.auth===true) {
 
             Cookie.set("token", action.res.data.token);
+            Cookie.set("userId", action.res.data.userId);
 
             newState.loggedIn = true;
             newState.redirect = true;
@@ -67,6 +67,7 @@ const reducer = (state = initialState, action) => {
         action.event.preventDefault();
 
         Cookie.set('token', "");
+        Cookie.set("userId", "");
 
         newState.loggedIn = false;
         newState.redirect = false;
