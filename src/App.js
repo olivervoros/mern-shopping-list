@@ -3,6 +3,7 @@ import {Route, BrowserRouter as Router, Redirect, Switch } from 'react-router-do
 import ShoppingList from './ShoppingList';
 import UpdateShoppingList from './UpdateShoppingList';
 import CreateShoppingList from './CreateShoppingList';
+import ViewShoppingList from './ViewShoppingList';
 import LoginForm from './LoginForm';
 import Page404 from './Page404';
 import {connect} from 'react-redux';
@@ -54,6 +55,15 @@ class App extends Component {
                                            shoppingListItems={shoppingListItems}
                                            createShoppingListItem={this.props.createShoppingListItem}
                                            loadCreateForm={this.props.loadCreateForm}
+                                           loggedIn={this.props.loggedIn}
+                                           logout={this.logout}/>)}
+                            />
+                            <Route exact path="/viewshoppinglist/:id"
+                                   render={(props) => (this.props.redirect ?
+                                       (<Redirect to={"/"}/>) :
+                                       <ViewShoppingList
+                                           shoppingListItemToUpdateID={props.match.params.id}
+                                           shoppingLists={this.props.shoppingLists}
                                            loggedIn={this.props.loggedIn}
                                            logout={this.logout}/>)}
                             />

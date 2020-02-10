@@ -13,11 +13,12 @@ class ShoppingListItem extends Component {
 
 
     render() {
-        const {title, _id, deleteShoppingListItem, loadCreateForm} = this.props;
+        const {title, _id, deleteShoppingListItem, viewShoppingListItem, loadCreateForm} = this.props;
 
         return (
                     <tr>
                         <th scope="row">{title}</th>
+                        <td><Link onClick={viewShoppingListItem} to={`/viewshoppinglist/${_id}`}>View shopping list</Link></td>
                         <td><Link onClick={loadCreateForm} to={`/update/${_id}`}>Update the shopping list</Link></td>
                         <td><Link onClick={deleteShoppingListItem} id={_id} to="#">Delete Shopping List</Link></td>
                     </tr>

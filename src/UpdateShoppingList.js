@@ -49,7 +49,7 @@ class UpdateShoppingList extends Component {
         }
 
         const ProductsArray = getShoppingListItemsArray();
-        const shoppingItems = Object.keys(items).map(key =>
+        const shoppingItems = Object.keys(ProductsArray).map(key =>
             <div className="form-group" key={key}>
                 <label className="mr-5" htmlFor="{key}">{capitaliseString(ProductsArray[key])}:</label>
                 <input key={key} id={key} name={key} defaultValue={items[key]}  onChange={e => this.updateInputValue(e)} type="text"/>

@@ -29,6 +29,7 @@ class ShoppingList extends Component {
                     <thead>
                     <tr>
                         <th scope="col">Title</th>
+                        <th scope="col">View</th>
                         <th scope="col">Update</th>
                         <th scope="col">Delete</th>
                     </tr>
