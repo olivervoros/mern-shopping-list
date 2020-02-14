@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from "prop-types";
 import Nav from "./Nav";
 import { Redirect } from 'react-router-dom';
-import {capitaliseString, getShoppingListItemsArray} from "./Helper";
+import {capitaliseString, getAuthTokenFromCookie, getShoppingListItemsArray} from "./Helper";
 
 class UpdateShoppingList extends Component {
 
@@ -35,6 +35,10 @@ class UpdateShoppingList extends Component {
     render() {
         const { shoppingLists, updateShoppingList, loadCreateForm, loggedIn, logout, shoppingListItemToUpdateID } = this.props;
 
+        if(!loggedIn || !getAuthTokenFromCookie()) {
+            return <Redirect to="/login"/>
+        }
+
         const shoppingListItem = shoppingLists.find(item => item._id === shoppingListItemToUpdateID);
 
         if(!shoppingListItem) {
@@ -43,16 +47,11 @@ class UpdateShoppingList extends Component {
 
         const items = (typeof shoppingListItem.items === 'undefined') ? false : shoppingListItem.items;
 
-
-        if(!loggedIn) {
-            return <Redirect to="/login"/>
-        }
-
         const ProductsArray = getShoppingListItemsArray();
         const shoppingItems = Object.keys(ProductsArray).map(key =>
             <div className="form-group" key={key}>
-                <label className="mr-5" htmlFor="{key}">{capitaliseString(ProductsArray[key])}:</label>
-                <input key={key} id={key} name={key} defaultValue={items[key]}  onChange={e => this.updateInputValue(e)} type="text"/>
+                <label className="mr-5" htmlFor={key}>{capitaliseString(ProductsArray[key])}:</label>
+                <input key={key} id={key} name={key} defaultValue={items[key] ? items[key] : "0"}  onChange={e => this.updateInputValue(e)} type="text"/>
             </div>
         );
         return (

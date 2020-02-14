@@ -64,6 +64,7 @@ class App extends Component {
                                        <ViewShoppingList
                                            shoppingListItemToUpdateID={props.match.params.id}
                                            shoppingLists={this.props.shoppingLists}
+                                           loadCreateForm={this.props.loadCreateForm}
                                            loggedIn={this.props.loggedIn}
                                            logout={this.logout}/>)}
                             />

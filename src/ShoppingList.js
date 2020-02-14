@@ -3,6 +3,7 @@ import ShoppingListItem from './ShoppingListItem'
 import PropTypes from 'prop-types';
 import Nav from "./Nav";
 import {Redirect } from 'react-router-dom'
+import { getAuthTokenFromCookie } from './Helper';
 
 class ShoppingList extends Component {
 
@@ -17,7 +18,7 @@ class ShoppingList extends Component {
     render() {
         const { shoppingLists, deleteShoppingListItem, loadCreateForm, loggedIn, logout } = this.props;
 
-        if(!loggedIn) {
+        if(!loggedIn || !getAuthTokenFromCookie()) {
             return <Redirect to="/login"/>
         }
 

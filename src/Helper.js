@@ -17,6 +17,14 @@ export function getUserIdFromCookie() {
     return Cookie.get("userId") ? Cookie.get("userId") : false;
 }
 
+export function deleteByValue(array, val) {
+    for(let f in array) {
+        if(array.hasOwnProperty(f) && array[f] === val) {
+            delete array[f];
+        }
+    }
+}
+
 export function getShoppingListItemsArray() {
     return { "apples": "Apples", "pear": "Pear", "lemon": "Lemon", "peach": "Peach", "strawberries" :
             "Strawberries", "plums" : "Plums", "banana" : "Bananas","orange" : "Orange", "mandarin" : "Mandarin",
@@ -43,7 +51,7 @@ export function getShoppingListItemsArray() {
         "shaving_foam" : "Shaving Foam", "shaving_razors" : "Shaving Razors", "flour" : "Flour",
         "sugar" : "Sugar", "cooking_oil" : "Cooking Oil", "salt" : "Salt", "eggs" : "Eggs",
         "rice" : "Rice", "pasta" : "Pasta", "spices" : "Spices", "ketchup" : "Ketchup",
-        "ropi_paluszki" : "Ropi/Paluszki", "nuts" : "Nuts", "köles_golyó_chrópki" : "Köles Golyó/Chrópki",
+        "ropi_paluszki" : "Ropi/Paluszki", "nuts" : "Nuts",
         "extra_1" : "Extra Product 1", "extra_2" : "Extra Product 2", "extra_3" : "Extra Product 3",
         "extra_4" : "Extra Product 4", "extra_5" : "Extra Product 5"};
 }

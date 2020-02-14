@@ -136,6 +136,10 @@ export const deleteShoppingList = (event) => async dispatch => {
 
     event.preventDefault();
 
+    if(! window.confirm('Are you sure you want to delete the item?')) {
+        return;
+    }
+
     const id = event.target.id;
     try {
         let deletedShoppingList = await axios.delete(

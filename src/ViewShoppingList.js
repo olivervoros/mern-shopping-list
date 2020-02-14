@@ -1,19 +1,17 @@
 import React, { Component } from 'react';
 import {NavLink, Redirect} from 'react-router-dom';
-import {capitaliseString, getShoppingListItemsArray} from "./Helper";
+import {capitaliseString, getAuthTokenFromCookie, getShoppingListItemsArray, deleteByValue} from "./Helper";
+import Nav from "./Nav";
 
 class ViewShoppingList extends Component {
 
-    deleteByValue(array, val) {
-        for(let f in array) {
-            if(array.hasOwnProperty(f) && array[f] === val) {
-                delete array[f];
-            }
-        }
-    }
 
     render() {
-        const { shoppingLists, loggedIn, shoppingListItemToUpdateID } = this.props;
+        const { shoppingLists, loadCreateForm, loggedIn, logout, shoppingListItemToUpdateID } = this.props;
+
+        if(!loggedIn || !getAuthTokenFromCookie()) {
+            return <Redirect to="/login"/>
+        }
 
         const shoppingListItem = shoppingLists.find(item => item._id === shoppingListItemToUpdateID);
         if(!shoppingListItem) {
@@ -22,25 +20,24 @@ class ViewShoppingList extends Component {
 
         const items = (typeof shoppingListItem.items === 'undefined') ? false : shoppingListItem.items;
 
-        this.deleteByValue(items, "0");
-
-        if(!loggedIn) {
-            return <Redirect to="/login"/>
-        }
+        deleteByValue(items, "0");
 
         const ProductsArray = getShoppingListItemsArray();
         const shoppingItems = Object.keys(items).map(key =>
             <div key={key}>
-                <p>- {capitaliseString(ProductsArray[key])}: {items[key]}</p>
+                <p>{capitaliseString(ProductsArray[key])}: {items[key]}</p>
             </div>
         );
 
         return (
-            <div className="container mt-5">
+            <div>
+                <Nav loadCreateForm={loadCreateForm} loggedIn={loggedIn} logout={logout}></Nav>
             <h3 className="mb-4">Shopping List: {shoppingListItem.title}</h3>
                 { shoppingItems }
                 <div>
-                    <NavLink className="mb-4" exact={true} activeClassName="active" to="/">Back to the homepage -> </NavLink>
+                    <NavLink className="mb-4" exact={true} activeClassName="active" to="/">
+                        <p><button className="btn btn-info">Back to the Homepage</button></p>
+                    </NavLink>
                 </div>
             </div>
 

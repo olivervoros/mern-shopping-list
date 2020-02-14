@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from "prop-types";
 import Nav from "./Nav";
 import {Redirect } from 'react-router-dom'
-import {capitaliseString, getShoppingListItemsArray } from "./Helper";
+import {capitaliseString, getAuthTokenFromCookie, getShoppingListItemsArray} from "./Helper";
 
 class CreateShoppingList extends Component {
 
@@ -33,7 +33,7 @@ class CreateShoppingList extends Component {
     render() {
         const { createShoppingListItem, loadCreateForm, loggedIn, logout } = this.props;
 
-        if(!loggedIn) {
+        if(!loggedIn || !getAuthTokenFromCookie()) {
             return <Redirect to="/login"/>
         }
 

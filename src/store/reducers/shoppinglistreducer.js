@@ -48,8 +48,8 @@ const reducer = (state = initialState, action) => {
     if(action.type==='LOGIN') {
         if(action.res && action.res.data.auth===true) {
 
-            Cookie.set("token", action.res.data.token);
-            Cookie.set("userId", action.res.data.userId);
+            Cookie.set("token", action.res.data.token, { expires: 7 });
+            Cookie.set("userId", action.res.data.userId, { expires: 7 });
 
             newState.loggedIn = true;
             newState.redirect = true;
