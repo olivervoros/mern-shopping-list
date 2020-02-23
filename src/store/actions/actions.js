@@ -4,7 +4,7 @@ import {
     getAuthTokenFromCookie,
     getUserIdFromCookie,
     getShoppingListItemsArray
-} from "../../Helper";
+} from "../../components/Helper";
 
 export const login = (event) => async dispatch => {
     event.preventDefault();
@@ -42,6 +42,11 @@ export const logout = (event) => {
 };
 
 export const loadAllShoppingLists = () => async dispatch => {
+
+    if(! getAuthTokenFromCookie()) {
+        return;
+    }
+
 
     try {
         let shoppingLists = await axios.get(

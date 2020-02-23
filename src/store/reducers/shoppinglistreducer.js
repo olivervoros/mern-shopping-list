@@ -1,5 +1,5 @@
 import Cookie from "js-cookie"
-import { getAuthTokenFromCookie } from "../../Helper";
+import { getAuthTokenFromCookie } from "../../components/Helper";
 
 const initialState = {
     loggedIn : !!getAuthTokenFromCookie(),
